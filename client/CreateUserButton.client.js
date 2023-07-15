@@ -3,13 +3,13 @@
 "use client";
 
 import React from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import app from "../firebase.config.js";
 
 function CreateUserButton() {
   const createTestUser = () => {
     const auth = getAuth(app); // pass the app instance to getAuth function
-    createUserWithEmailAndPassword(auth, "test@example.com", "password123")
+    createUserWithEmailAndPassword(auth, "test2@example.com", "password123")
       .then((userCredential) => {
         console.log("User was created successfully");
       })

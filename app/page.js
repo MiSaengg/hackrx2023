@@ -1,6 +1,7 @@
 // app/page.js
 
 import CreateUserButton from "../client/CreateUserButton.client.js";
+import Login from './components/Login.js';
 
 export default function Home() {
   return (
@@ -15,7 +16,9 @@ export default function Home() {
             rel="noopener noreferrer"
           >
           </a>
-          <CreateUserButton /> // Testing firebase client-side
+          <CreateUserButton /> 
+          <h1>Welcome to My Website</h1>
+      <Login />
         </div>
       </div>
 
