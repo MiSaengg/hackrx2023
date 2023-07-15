@@ -4,7 +4,7 @@
 
 import React from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import app from "../firebase.config.js";
+import app from "../firebase/firebase.config.js";
 
 function CreateUserButton() {
   const createTestUser = () => {
