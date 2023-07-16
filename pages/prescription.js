@@ -1,25 +1,27 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import withAuth from '../firebase/withAuth';
-import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
-import { db, auth } from '../firebase/firebase.config';
-import ReactModal from 'react-modal';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import withAuth from "../firebase/withAuth";
+import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase.config";
+import ReactModal from "react-modal";
+import { arrayUnion } from "firebase/firestore";
+import { setDoc } from "firebase/firestore";
 
 const PrescriptionPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [aliments, setAliments] = useState([]);
-  const [selectedAliment, setSelectedAliment] = useState('');
-  const [selectedDrug, setSelectedDrug] = useState('');
+  const [selectedAliment, setSelectedAliment] = useState("");
+  const [selectedDrug, setSelectedDrug] = useState("");
   const [specifiedDrugs, setSpecifiedDrugs] = useState([]);
-  const [dosage, setDosage] = useState('');
-  const [timesPerDay, setTimesPerDay] = useState('');
-  const [additionalInfo, setAdditionalInfo] = useState('');
+  const [dosage, setDosage] = useState("");
+  const [timesPerDay, setTimesPerDay] = useState("");
+  const [additionalInfo, setAdditionalInfo] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userName, setUserName] = useState('');
-  const [licenseNumber, setLicenseNumber] = useState('');
-  const [address, setAddress] = useState('');
-  const [eSignature, setESignature] = useState('');
+  const [userName, setUserName] = useState("");
+  const [licenseNumber, setLicenseNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [eSignature, setESignature] = useState("");
 
   const handleSend = () => {
     setIsModalOpen(true);
@@ -27,13 +29,14 @@ const PrescriptionPage = () => {
 
   const handleEmailSend = async () => {
     const prescriptionData = {
-      "Pharmacist": userName,
+      Email: email,
+      Pharmacist: userName,
       "License Number": licenseNumber,
-      "Address": address,
+      Address: address,
       "E-Signature": eSignature,
-      "Aliment": selectedAliment,
-      "Drug": selectedDrug,
-      "Dosage": dosage,
+      Aliment: selectedAliment,
+      Drug: selectedDrug,
+      Dosage: dosage,
       "Times Per Day": timesPerDay,
       "Additional Info": additionalInfo,
     };
@@ -48,11 +51,22 @@ const PrescriptionPage = () => {
   
     if (response.ok) {
       console.log("Email sent successfully");
+      
+      // add the prescription to the records collection
+      const uid = auth.currentUser?.uid;
+      const recordsRef = doc(collection(db, "records"), uid);
+      
+      // push the prescription into the 'log' array field
+      await setDoc(recordsRef, {
+        log: arrayUnion(prescriptionData),
+      }, { merge: true });
+      
     } else {
       const errorData = await response.json();
       console.error(errorData.message);
-    }    
+    }
   };
+  
   
 
   useEffect(() => {

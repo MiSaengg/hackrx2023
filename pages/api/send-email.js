@@ -34,11 +34,12 @@ export default async function handler(req, res) {
   }
 
   const msg = {
-    to: "gcho13@my.bcit.ca",
+    to: prescriptionData.Email,
     from: "gcho13@my.bcit.ca",
     subject: "Prescription Information",
     text: formatPrescription(prescriptionData),
-    html: formatPrescriptionHTML(prescriptionData),
+    html: `${formatPrescriptionHTML(prescriptionData)} 
+           <p>Track your medication <a href="http://google.com">here</a>.</p>`,
   };
 
   try {
