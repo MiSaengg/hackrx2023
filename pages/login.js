@@ -1,51 +1,70 @@
-// pages/login.js
-
-import React, { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
+import 'firebaseui/dist/firebaseui.css';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase/firebase.config';
 import { useRouter } from 'next/router';
-import { auth } from '../firebase/firebase.config';
+import { EmailAuthProvider } from 'firebase/auth';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [ui, setUi] = useState(null);
+  const auth = getAuth();
   const router = useRouter();
 
-  const loginUser = async () => {
-    const auth = getAuth();
-    await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setErrorMessage('');
-        router.push('/main');
-      })
-      .catch((error) => {
-        console.error('An error occurred: ', error);
-
-        if (error.code === 'auth/user-not-found') {
-          setErrorMessage('No user found');
-        } else if (error.code === 'auth/wrong-password') {
-          setErrorMessage('Wrong password');
+  const uiConfig = {
+    callbacks: {
+      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        const user = authResult.user;
+        if (authResult.additionalUserInfo.isNewUser) {
+          createUserAndSetRoles(user.uid);
         } else {
-          setErrorMessage('Error with log in');
+          return true;
         }
-      });
+        return false;
+      },
+    },
+    signInFlow: 'popup',
+    signInSuccessUrl: '/main',
+    signInOptions: [
+      EmailAuthProvider.PROVIDER_ID,
+    ],
+  };
+
+  useEffect(() => {
+    import('firebaseui').then((firebaseui) => {
+      if (typeof window !== 'undefined') {
+        const firebaseUiInstance =
+          firebaseui.auth.AuthUI.getInstance() ||
+          new firebaseui.auth.AuthUI(auth);
+
+        setUi(firebaseUiInstance);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (ui) {
+      ui.start('#firebaseui-auth-container', uiConfig);
+    }
+  }, [ui]);
+
+  const createUserAndSetRoles = async (uid) => {
+    const usersRef = collection(db, 'users');
+
+    await setDoc(doc(usersRef, uid), {
+      roles: 'viewer',
+    });
+
+    router.push({
+      pathname: '/main',
+      query: { roles: 'viewer' },
+    });
   };
 
   return (
     <div>
       <h1>Login Page</h1>
-      {errorMessage && <p>{errorMessage}</p>}
-      <input
-        type="text"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={loginUser}>Login</button>
+      <div id="firebaseui-auth-container"></div>
     </div>
   );
 };

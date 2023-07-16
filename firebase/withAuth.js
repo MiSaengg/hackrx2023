@@ -11,13 +11,12 @@ const withAuth = (Component) => {
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user){
-          console.log(user)
           setVerified(true);
         } else {
-          Router.push("/index");
+          Router.push("/"); 
         }
       });
-
+    
       return () => unsubscribe();
     }, []);
 
