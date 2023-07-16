@@ -15,7 +15,7 @@ export default function Page() {
 
   //Later change the default value
   const [medicineName , setMedicineName] = useState("HAHAHA")
-  const [scheduleToTake , setScheduleToTake] = useState(2)
+  const [scheduleToTake , setScheduleToTake] = useState(5)
 
   useEffect(() => {
     if( !router.isReady ) {      
