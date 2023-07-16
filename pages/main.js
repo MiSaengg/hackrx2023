@@ -1,9 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { auth } from '../firebase/firebase.config';
-import withAuth from '../firebase/withAuth';
-import { collection, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase/firebase.config';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { auth } from "../firebase/firebase.config";
+import withAuth from "../firebase/withAuth";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase.config";
+
+const Prescribe = () => {
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    router.push("/prescription");
+  };
+
+  return (
+    <div>
+      <button onClick={handleButtonClick}>Prescribe</button>
+    </div>
+  );
+};
 
 const MainPage = () => {
   const router = useRouter();
@@ -12,13 +26,13 @@ const MainPage = () => {
 
   const handleLogout = async () => {
     await auth.signOut();
-    router.push('/');
+    router.push("/");
   };
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (uid) {
-        const userRef = doc(collection(db, 'users'), uid);
+        const userRef = doc(collection(db, "users"), uid);
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
@@ -31,12 +45,18 @@ const MainPage = () => {
     fetchUserData();
   }, [uid]);
 
-  const handleSaveProfile = async (name, gender, dateOfBirth, allergies, currentMedications) => {
+  const handleSaveProfile = async (
+    name,
+    gender,
+    dateOfBirth,
+    allergies,
+    currentMedications
+  ) => {
     if (uid) {
-      const userRef = doc(collection(db, 'users'), uid);
+      const userRef = doc(collection(db, "users"), uid);
       let userData = {};
 
-      if (user.roles.includes('viewer')) {
+      if (user.roles.includes("viewer")) {
         userData = {
           name: name,
           gender: gender,
@@ -59,11 +79,20 @@ const MainPage = () => {
     }
   };
 
-  if (!user || (user && user.roles.includes('viewer') && (!user.name || !user.gender || !user.dateOfBirth || !user.allergies || !user.currentMedications))) {
+  if (
+    !user ||
+    (user &&
+      user.roles.includes("viewer") &&
+      (!user.name ||
+        !user.gender ||
+        !user.dateOfBirth ||
+        !user.allergies ||
+        !user.currentMedications))
+  ) {
     return (
       <div>
         <h1>Complete Your Profile</h1>
-        {user && user.roles.includes('viewer') && (
+        {user && user.roles.includes("viewer") && (
           <>
             <label>
               Full Name:
@@ -91,12 +120,20 @@ const MainPage = () => {
             </label>
             <button
               onClick={() => {
-                const name = document.getElementById('name-input').value;
-                const gender = document.getElementById('gender-input').value;
-                const dateOfBirth = document.getElementById('dob-input').value;
-                const allergies = document.getElementById('allergies-input').value;
-                const currentMedications = document.getElementById('medications-input').value;
-                handleSaveProfile(name, gender, dateOfBirth, allergies, currentMedications);
+                const name = document.getElementById("name-input").value;
+                const gender = document.getElementById("gender-input").value;
+                const dateOfBirth = document.getElementById("dob-input").value;
+                const allergies =
+                  document.getElementById("allergies-input").value;
+                const currentMedications =
+                  document.getElementById("medications-input").value;
+                handleSaveProfile(
+                  name,
+                  gender,
+                  dateOfBirth,
+                  allergies,
+                  currentMedications
+                );
               }}
             >
               Save Profile
@@ -107,7 +144,7 @@ const MainPage = () => {
     );
   }
 
-  if (user.roles.includes('admin')) {
+  if (user.roles.includes("admin")) {
     return (
       <div>
         <h1>Main Page</h1>
@@ -115,6 +152,7 @@ const MainPage = () => {
         <p>Welcome, {user.name}!</p>
         {user.address && <p>Address: {user.address}</p>}
         {user.licenseNumber && <p>License Number: {user.licenseNumber}</p>}
+        <Prescribe />
         <button onClick={handleLogout}>Logout</button>
       </div>
     );
@@ -126,8 +164,8 @@ const MainPage = () => {
         <p>Welcome, {user.name}!</p>
         <p>Gender: {user.gender}</p>
         <p>Date of Birth: {user.dateOfBirth}</p>
-        <p>Allergies: {user.allergies || 'N/A'}</p>
-        <p>Current Medications: {user.currentMedications || 'N/A'}</p>
+        <p>Allergies: {user.allergies || "N/A"}</p>
+        <p>Current Medications: {user.currentMedications || "N/A"}</p>
         <button onClick={handleLogout}>Logout</button>
       </div>
     );
