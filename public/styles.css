@@ -1,3 +1,10 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.outlined-input {
+    border: 1px solid #000;
+    padding: 4px;
+    margin: 0 0 10px 0;
+    border-radius: 3px;
+  }
