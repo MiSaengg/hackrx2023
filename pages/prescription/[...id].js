@@ -126,16 +126,12 @@ export default function Page() {
         <label># a day</label>        
         <input type="text" id="scheduleToTake" value={scheduleToTake || ""} readOnly/>
       </div>
-      <div>
-        <label>Tracking</label>        
-        <input type="text" placeholder="" readOnly/>
+      <div>        
+        <button onClick={logsBtnClickAction}>Tracking</button>
       </div>
       <div>
         <label>Extra Notes</label>        
         <input type="text" placeholder="" readOnly/>
-      </div>
-      <div>        
-        <button onClick={logsBtnClickAction}>Logs</button>
       </div>      
     </div>
   )
