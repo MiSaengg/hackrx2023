@@ -54,6 +54,9 @@ export default function Page() {
         const userRef = doc(collection(db, "users"), id );
         let userData = {      
           prescriptionDetail : {    
+            // later add the info
+            aliments : aliments,
+            dosage : dosage,
             medicineName : medicineName,
             scheduleToTake : scheduleToTake,
             taken : false,
