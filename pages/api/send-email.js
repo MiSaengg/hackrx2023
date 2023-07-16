@@ -3,9 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log(process.env.SENDGRID_API_KEY);
-console.log(process.env);
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
@@ -15,7 +12,6 @@ export default async function handler(req, res) {
 
   const prescriptionData = req.body;
 
-  console.log(req.body);
   function formatPrescription(prescriptionData) {
     let formattedText = "";
     for (let [key, value] of Object.entries(prescriptionData)) {
@@ -24,12 +20,13 @@ export default async function handler(req, res) {
     return formattedText;
   }
 
-  function formatPrescriptionHTML(prescriptionData) {
+  function formatPrescriptionHTML(prescriptionData, userId, pharmacistId) {
     let formattedText = "<ul>";
     for (let [key, value] of Object.entries(prescriptionData)) {
       formattedText += `<li><strong>${key}:</strong> ${value}</li>`;
     }
     formattedText += "</ul>";
+    formattedText += `<p>Track your medication <a href="http://localhost:300/prescription/${userId}/${pharmacistId}/">here</a>.</p>`;
     return formattedText;
   }
 
@@ -38,8 +35,11 @@ export default async function handler(req, res) {
     from: "gcho13@my.bcit.ca",
     subject: "Prescription Information",
     text: formatPrescription(prescriptionData),
-    html: `${formatPrescriptionHTML(prescriptionData)} 
-           <p>Track your medication <a href="http://google.com">here</a>.</p>`,
+    html: formatPrescriptionHTML(
+      prescriptionData,
+      prescriptionData.UserId,
+      prescriptionData.PharmacistId
+    ),
   };
 
   try {
@@ -49,6 +49,6 @@ export default async function handler(req, res) {
     console.error(error);
     res
       .status(500)
-      .json({ message: "Failed to send email!!!!", error: error.toString() });
+      .json({ message: "Failed to send email!", error: error.toString() });
   }
 }

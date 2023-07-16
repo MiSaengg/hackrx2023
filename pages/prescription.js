@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import withAuth from "../firebase/withAuth";
-import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { db, auth } from "../firebase/firebase.config";
 import ReactModal from "react-modal";
 import { arrayUnion } from "firebase/firestore";
@@ -22,12 +29,35 @@ const PrescriptionPage = () => {
   const [licenseNumber, setLicenseNumber] = useState("");
   const [address, setAddress] = useState("");
   const [eSignature, setESignature] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [emailExists, setEmailExists] = useState(false);
 
   const handleSend = () => {
-    setIsModalOpen(true);
+    if (emailExists) {
+      setIsModalOpen(true);
+    }
+    if (!emailExists) {
+      alert("User does not exist");
+      return;
+    }
   };
 
   const handleEmailSend = async () => {
+    const usersQuery = query(
+      collection(db, "users"),
+      where("email", "==", email)
+    );
+    const querySnapshot = await getDocs(usersQuery);
+
+    if (querySnapshot.empty) {
+      alert("User does not exist");
+      return;
+    }
+
+    const userDoc = querySnapshot.docs[0];
+    const emailUserId = userDoc.id;
+    const currentUserId = auth.currentUser?.uid;
+
     const prescriptionData = {
       Email: email,
       Pharmacist: userName,
@@ -39,8 +69,9 @@ const PrescriptionPage = () => {
       Dosage: dosage,
       "Times Per Day": timesPerDay,
       "Additional Info": additionalInfo,
+      Date: new Date().toISOString(), 
     };
-  
+
     const response = await fetch("/api/send-email", {
       method: "POST",
       headers: {
@@ -48,26 +79,25 @@ const PrescriptionPage = () => {
       },
       body: JSON.stringify(prescriptionData),
     });
-  
+
     if (response.ok) {
       console.log("Email sent successfully");
-      
-      // add the prescription to the records collection
-      const uid = auth.currentUser?.uid;
-      const recordsRef = doc(collection(db, "records"), uid);
-      
-      // push the prescription into the 'log' array field
-      await setDoc(recordsRef, {
-        log: arrayUnion(prescriptionData),
-      }, { merge: true });
-      
+
+      // Add the prescription to the user's records collection
+      const userRecordsRef = doc(collection(db, "records"), currentUserId);
+
+      await setDoc(
+        userRecordsRef,
+        {
+          [emailUserId]: arrayUnion(prescriptionData),
+        },
+        { merge: true }
+      );
     } else {
       const errorData = await response.json();
       console.error(errorData.message);
     }
   };
-  
-  
 
   useEffect(() => {
     const checkAdminRole = async () => {
@@ -133,16 +163,45 @@ const PrescriptionPage = () => {
     setSelectedDrug(event.target.value);
   };
 
+  const handleEmailChange = async (e) => {
+    setEmail(e.target.value);
+
+    const usersQuery = query(
+      collection(db, "users"),
+      where("email", "==", e.target.value)
+    );
+    const querySnapshot = await getDocs(usersQuery);
+
+    const usersList = [];
+    querySnapshot.forEach((doc) => {
+      let data = doc.data();
+      data.id = doc.id;
+      usersList.push(data);
+    });
+
+    setSearchResults(usersList);
+    setEmailExists(usersList.length > 0);
+  };
+
   return (
     <div>
       <h1>Prescription Page</h1>
 
       <input
+        list="email-suggestions"
         type="email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleEmailChange}
         placeholder="Email"
       />
+
+      <datalist id="email-suggestions">
+        {searchResults.map((user, index) => (
+          <option key={index} value={user.email}>
+            {user.email}
+          </option>
+        ))}
+      </datalist>
 
       <select onChange={handleAlimentChange}>
         {aliments.map((aliment, index) => (
