@@ -1,0 +1,287 @@
+[
+  {
+    "minorAilment": "Acne (mild)",
+    "specifiedDrugs": [
+      "Adapalene",
+      "Azelaic acid",
+      "Benzoyl peroxide",
+      "Clindamycin",
+      "Dapsone",
+      "Erythromycin",
+      "Glycolic acid",
+      "Salicylic acid",
+      "Tazarotene",
+      "Tretinoin",
+      "Trifarotene"
+    ]
+  },
+  {
+    "minorAilment": "Allergic rhinitis (Antihistamines)",
+    "specifiedDrugs": [
+      "Azelastine",
+      "Bilastine",
+      "Cetirizine",
+      "Cyproheptadine",
+      "Desloratadine",
+      "Fexofenadine",
+      "Loratadine",
+      "Olopatadine",
+      "Rupatadine"
+    ]
+  },
+  {
+    "minorAilment": "Allergic rhinitis (Corticosteroids)",
+    "specifiedDrugs": [
+      "Beclomethasone",
+      "Budesonide",
+      "Ciclesonide",
+      "Fluticasone",
+      "Mometasone",
+      "Triamcinolone"
+    ]
+  },
+  {
+    "minorAilment": "Candidal stomatitis",
+    "specifiedDrugs": [
+      "Nystatin"
+    ]
+  },
+  {
+    "minorAilment": "Conjunctivitis (bacterial, allergic or viral) (Antiallergic Agents)",
+    "specifiedDrugs": [
+      "Antazoline",
+      "Bepotastine",
+      "Cromolyn sodium (Sodium cromoglycate)",
+      "Ketotifen",
+      "Lodoxamide",
+      "Olopatadine",
+      "Pheniramine"
+    ]
+  },
+  {
+    "minorAilment": "Conjunctivitis (bacterial, allergic or viral) (Antibacterials)",
+    "specifiedDrugs": [
+      "Erythromycin",
+      "Fusidic acid",
+      "Gramicidin",
+      "Polymyxin B",
+      "Tobramycin",
+      "Trimethoprim"
+    ]
+  },
+  {
+    "minorAilment": "Conjunctivitis (bacterial, allergic or viral) (Vasoconstrictors)",
+    "specifiedDrugs": [
+      "Naphazoline",
+      "Oxymetazoline",
+      "Phenylephrine",
+      "Tetrahydrozoline"
+    ]
+  },
+  {
+    "minorAilment": "Dermatitis (atopic/eczema, allergic or contact) (Anti-inflammatory Agents)",
+    "specifiedDrugs": [
+      "Beclomethasone",
+      "Betamethasone valerate",
+      "Clobetasone",
+      "Crisaborole",
+      "Desonide",
+      "Fluocinolone",
+      "Hydrocortisone",
+      "Prednicarbate",
+      "Triamcinolone"
+    ]
+  },
+  {
+    "minorAilment": "Dermatitis (diaper) (Antifungals)",
+    "specifiedDrugs": [
+      "Ciclopirox",
+      "Clotrimazole",
+      "Ketoconazole",
+      "Miconazole",
+      "Nystatin"
+    ]
+  },
+  {
+    "minorAilment": "Dermatitis (diaper) (Anti-inflammatory Agents)",
+    "specifiedDrugs": [
+      "Desonide",
+      "Hydrocortisone"
+    ]
+  },
+  {
+    "minorAilment": "Dysmenorrhea (Nonsteroidal Anti-inflammatory Agents)",
+    "specifiedDrugs": [
+      "Acetylsalicylic acid (ASA)",
+      "Celecoxib",
+      "Diclofenac",
+      "Flurbiprofen",
+      "Ibuprofen",
+      "Ketoprofen",
+      "Mefenamic acid",
+      "Naproxen"
+    ]
+  },
+  {
+    "minorAilment": "Gastroesophageal reflux disease (GERD) (Antacids and Adsorbents)",
+    "specifiedDrugs": [
+      "Alginic acid",
+      "Aluminum hydroxide",
+      "Calcium carbonate",
+      "Magnesium salts"
+    ]
+  },
+  {
+    "minorAilment": "Gastroesophageal reflux disease (GERD) (Histamine H2-Antagonists)",
+    "specifiedDrugs": [
+      "Cimetidine",
+      "Famotidine",
+      "Nizatidine",
+      "Ranitidine"
+    ]
+  },
+  {
+    "minorAilment": "Gastroesophageal reflux disease (GERD) (Proton-Pump Inhibitors)",
+    "specifiedDrugs": [
+      "Dexlansoprazole",
+      "Esomeprazole",
+      "Lansoprazole",
+      "Omeprazole",
+      "Pantoprazole",
+      "Rabeprazole"
+    ]
+  },
+  {
+    "minorAilment": "Hemorrhoids (Skin and Mucous Membrane Agents)",
+    "specifiedDrugs": [
+      "Dibucaine (Cinchocaine)",
+      "Esculin (Aesculin)",
+      "Framycetin (Neomycin B)",
+      "Hydrocortisone",
+      "Phenylephrine",
+      "Pramoxine",
+      "Zinc sulfate"
+    ]
+  },
+  {
+    "minorAilment": "Herpes labialis (Anti-inflammatory Agents)",
+    "specifiedDrugs": [
+      "Hydrocortisone"
+    ]
+  },
+  {
+    "minorAilment": "Herpes labialis (Antivirals)",
+    "specifiedDrugs": [
+      "Acyclovir",
+      "Docosanol",
+      "Famciclovir",
+      "Valacyclovir"
+    ]
+  },
+  {
+    "minorAilment": "Impetigo (Antibacterials)",
+    "specifiedDrugs": [
+      "Bacitracin",
+      "Fusidic acid (Sodium fusidate)",
+      "Gramicidin",
+      "Mupirocin",
+      "Ozenoxacin",
+      "Polymyxin B"
+    ]
+  },
+  {
+    "minorAilment": "Insect bites and urticaria (Antihistamines)",
+    "specifiedDrugs": [
+      "Bilastine",
+      "Cetirizine",
+      "Chlorpheniramine",
+      "Cyproheptadine",
+      "Desloratadine",
+      "Diphenhydramine",
+      "Fexofenadine",
+      "Hydroxyzine",
+      "Loratadine",
+      "Rupatadine"
+    ]
+  },
+  {
+    "minorAilment": "Insect bites and urticaria (Antipruritics and Anti-inflammatory Agents)",
+    "specifiedDrugs": [
+      "Benzocaine",
+      "Calamine",
+      "Camphor",
+      "Desonide",
+      "Hydrocortisone",
+      "Lidocaine",
+      "Menthol",
+      "Pramoxine",
+      "Zinc oxide"
+    ]
+  },
+  {
+    "minorAilment": "Musculoskeletal sprains and strains (Analgesics)",
+    "specifiedDrugs": [
+      "Acetaminophen"
+    ]
+  },
+  {
+    "minorAilment": "Musculoskeletal sprains and strains (Nonsteroidal Anti-inflammatory Agents)",
+    "specifiedDrugs": [
+      "Acetylsalicylic acid (ASA)",
+      "Celecoxib",
+      "Diclofenac",
+      "Flurbiprofen",
+      "Ibuprofen",
+      "Ketoprofen",
+      "Mefenamic acid",
+      "Naproxen"
+    ]
+  },
+  {
+    "minorAilment": "Nausea and vomiting of pregnancy (Antiemetics and Antinauseants)",
+    "specifiedDrugs": [
+      "Dimenhydrinate",
+      "Diphenhydramine",
+      "Doxylamine",
+      "Promethazine",
+      "Pyridoxine"
+    ]
+  },
+  {
+    "minorAilment": "Oral aphthae (Anti-inflammatory Agents)",
+    "specifiedDrugs": [
+      "Triamcinolone"
+    ]
+  },
+  {
+    "minorAilment": "Pinworms/Threadworms (Anthelmintics)",
+    "specifiedDrugs": [
+      "Mebendazole",
+      "Pyrantel pamoate"
+    ]
+  },
+  {
+    "minorAilment": "Tick bites, post-exposure prophylaxis to prevent Lyme disease (Antibacterials)",
+    "specifiedDrugs": [
+      "Doxycycline"
+    ]
+  },
+  {
+    "minorAilment": "Urinary tract infection (uncomplicated) (Urinary Anti-infectives)",
+    "specifiedDrugs": [
+      "Fosfomycin",
+      "Nitrofurantoin",
+      "Sulfamethoxazole",
+      "Trimethoprim"
+    ]
+  },
+  {
+    "minorAilment": "Vulvovaginal candidiasis (Antifungals)",
+    "specifiedDrugs": [
+      "Clotrimazole",
+      "Fluconazole",
+      "Miconazole",
+      "Terconazole"
+    ]
+  }
+]
