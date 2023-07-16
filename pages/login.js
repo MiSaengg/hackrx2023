@@ -15,8 +15,9 @@ const LoginPage = () => {
     callbacks: {
       signInSuccessWithAuthResult: function(authResult, redirectUrl) {
         const user = authResult.user;
+        
         if (authResult.additionalUserInfo.isNewUser) {
-          createUserAndSetRoles(user.uid);
+          createUserAndSetRoles(user.uid , user.displayName, user.email,);
         } else {
           return true;
         }
@@ -48,10 +49,12 @@ const LoginPage = () => {
     }
   }, [ui]);
 
-  const createUserAndSetRoles = async (uid) => {
+  const createUserAndSetRoles = async (uid , name, email) => {
     const usersRef = collection(db, 'users');
 
-    await setDoc(doc(usersRef, uid), {
+    await setDoc(doc(usersRef , uid), {
+      user_name : name,
+      email : email,
       roles: 'viewer',
     });
 
