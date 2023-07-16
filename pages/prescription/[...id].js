@@ -15,7 +15,7 @@ export default function Page() {
   const [record, setRecord] = useState({});
   //Later change the default value
   const [medicineName , setMedicineName] = useState("loading")
-  const [scheduleToTake , setScheduleToTake] = useState("loading")
+  const [scheduleToTake , setScheduleToTake] = useState(0)
   const [dosage , setDosage] = useState("loading")
   const [aliment, setAliment] = useState("loading")
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function Page() {
     
     
     const fetchUserData = async () => {
-      if (id) {
+      if (id || idParam[0]) {
         const userRef = doc(collection(db, "users"), id);
         const userSnap = await getDoc(userRef);
 
@@ -42,8 +42,8 @@ export default function Page() {
           
         }
       }
-
-      if(pharaId){
+      
+      if(pharaId || idParam[1]){
         // const userRef = doc(collection(db,"records") , pharaId);
         const userRef = doc(collection(db, "records"), pharaId);
         const userSnap = await getDoc(userRef);
@@ -55,7 +55,7 @@ export default function Page() {
           const ultimateCertainUser = certainUserData[0]
           setRecord(ultimateCertainUser)
           setMedicineName(ultimateCertainUser["Drug"]);
-          setScheduleToTake(ultimateCertainUser["Times Per Day"])
+          setScheduleToTake(parseInt(ultimateCertainUser["Times Per Day"]))
           setAliment(ultimateCertainUser["Aliment"])
           setDosage(ultimateCertainUser["Dosage"])
         }
@@ -65,6 +65,7 @@ export default function Page() {
 
     fetchUserData();
   }, [router.isReady]);
+
 
   // Button Click eventListener
   const logsBtnClickAction = () => {
