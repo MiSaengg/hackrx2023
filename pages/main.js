@@ -30,17 +30,9 @@ const MainPage = () => {
     router.push("/");
   };
 
-  const handleViewLogs = async () => {
-    if (uid) {
-      const recordsRef = doc(collection(db, "records"), uid);
-      const recordsSnap = await getDoc(recordsRef);
-
-      if (recordsSnap.exists()) {
-        const recordsData = recordsSnap.data();
-        setLogs(recordsData.log);
-      }
-    }
-};
+  const handleViewLogs = () => {
+    router.push("/logs");
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -168,21 +160,6 @@ const MainPage = () => {
         <Prescribe />
         <button onClick={handleViewLogs}>Logs</button>
         <button onClick={handleLogout}>Logout</button>
-        {logs && logs.map((log, index) => (
-        <div key={index}>
-          <h2>Log #{index + 1}</h2>
-          <p>Email: {log.Email}</p>
-          <p>Pharmacist: {log.Pharmacist}</p>
-          <p>License Number: {log['License Number']}</p>
-          <p>Address: {log.Address}</p>
-          <p>E-Signature: {log['E-Signature']}</p>
-          <p>Aliment: {log.Aliment}</p>
-          <p>Drug: {log.Drug}</p>
-          <p>Dosage: {log.Dosage}</p>
-          <p>Times Per Day: {log['Times Per Day']}</p>
-          <p>Additional Info: {log['Additional Info']}</p>
-        </div>
-      ))}
       </div>
     );
   } else {
