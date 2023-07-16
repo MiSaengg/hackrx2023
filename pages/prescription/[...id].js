@@ -12,11 +12,12 @@ export default function Page() {
   const [user, setUser] = useState({ user_name : "loading"});
   const [id , setId] = useState("")
   const [pharaId, setPharaId] = useState("")
-
+  const [record, setRecord] = useState({});
   //Later change the default value
-  const [medicineName , setMedicineName] = useState("HAHAHA")
-  const [scheduleToTake , setScheduleToTake] = useState(5)
-
+  const [medicineName , setMedicineName] = useState("loading")
+  const [scheduleToTake , setScheduleToTake] = useState("loading")
+  const [dosage , setDosage] = useState("loading")
+  const [aliment, setAliment] = useState("loading")
   useEffect(() => {
     if( !router.isReady ) {      
       return;
@@ -27,7 +28,7 @@ export default function Page() {
 
     //Use it later
     const phara_id = idParam[1]
-    // setPharaId(phara_id)
+    setPharaId(phara_id)
     
     
     const fetchUserData = async () => {
@@ -37,9 +38,28 @@ export default function Page() {
 
         if (userSnap.exists()) {
           const userData = userSnap.data();
-          setUser(userData);
+          setUser(userData);          
           
         }
+      }
+
+      if(pharaId){
+        // const userRef = doc(collection(db,"records") , pharaId);
+        const userRef = doc(collection(db, "records"), pharaId);
+        const userSnap = await getDoc(userRef);
+
+        if(userSnap.exists()){
+          const userData = userSnap.data();
+          console.log(userData)
+          const certainUserData = userData[id]
+          const ultimateCertainUser = certainUserData[0]
+          setRecord(ultimateCertainUser)
+          setMedicineName(ultimateCertainUser["Drug"]);
+          setScheduleToTake(ultimateCertainUser["Times Per Day"])
+          setAliment(ultimateCertainUser["Aliment"])
+          setDosage(ultimateCertainUser["Dosage"])
+        }
+
       }
     };
 
@@ -60,8 +80,8 @@ export default function Page() {
           userUltimateData.push({                
             // later add the info
             sequenceNo: i,
-            aliments : "aliments123",
-            dosage : "dosage123",
+            aliments : aliment,
+            dosage : dosage,
             medicineName : medicineName,
             scheduleToTake : scheduleToTake,
             taken : false,
@@ -100,11 +120,11 @@ export default function Page() {
       </div>
       <div>
         <label>Medicine Name</label>        
-        <input type="text" id="medicineName" value={medicineName} readOnly/>
+        <input type="text" id="medicineName" value={medicineName || ""} readOnly/>
       </div>
       <div>
         <label># a day</label>        
-        <input type="text" id="scheduleToTake" value={scheduleToTake} readOnly/>
+        <input type="text" id="scheduleToTake" value={scheduleToTake || ""} readOnly/>
       </div>
       <div>
         <label>Tracking</label>        
