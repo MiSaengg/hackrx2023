@@ -29,22 +29,30 @@ export default function TrackingComponent(props) {
 
   if(!props.taken){    
   return (    
-    <div>      
-        <div>{props.drugs}</div>
-        <div>Did you take it ?</div>
-        <div>        
+    <div className="z-10 w-3 flex flex-col items-center justify-center font-mono text-sm border-2 p-10 my-3 rounded" >    
+        <div className="z-10 w-full max-w-5xl flex flex-col items-center justify-center font-mono text-lg">
+          {props.drugs}
+        </div>
+        <div className="z-10 w-full max-w-5xl flex flex-col items-center justify-center font-mono text-sm">
+          Did you take it ?
+        </div>
+        <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-evenly font-mono text-sm">
           <input type='radio' name={props.seq} value={props.taken} defaultChecked={take === true}/>
           <label>Yes</label>
-        </div>
-        <div>        
           <input type='radio' name={props.seq} value={!props.taken} defaultChecked={take === false}/>
-          <label>No</label>
+          <label>No</label>          
         </div>
-        <div>
-          <label>Side Effect</label>
+        
+        
+        <div className="z-10 w-full max-w-5xl flex flex-col items-center justify-center font-mono text-sm">      
+          <label>Any Side Effect ? </label>
+        </div>
+        <div className="z-10 w-full max-w-5xl flex flex-col items-center justify-center font-mono text-lg">
           <textarea></textarea>
+        </div>  
+        <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-4 sm:py-4 sm:px-8">        
+          <button type='button' onClick={btnSave}>Save</button>      
         </div>
-        <button type='button' onClick={btnSave}>Save</button>      
     </div>
   )
   }else{

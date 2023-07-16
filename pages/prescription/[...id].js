@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { collection, doc, getDoc, updateDoc,setDoc, addDoc ,arrayUnion, Timestamp} from "firebase/firestore";
 import { db } from "@/firebase/firebase.config";
-
+import "@/public/styles.css"
 
 
 
@@ -14,8 +14,8 @@ export default function Page() {
   const [pharaId, setPharaId] = useState("")
   const [record, setRecord] = useState({});
   //Later change the default value
-  const [medicineName , setMedicineName] = useState("loading")
-  const [scheduleToTake , setScheduleToTake] = useState(0)
+  const [medicineName , setMedicineName] = useState(null)
+  const [scheduleToTake , setScheduleToTake] = useState(4)
   const [dosage , setDosage] = useState("loading")
   const [aliment, setAliment] = useState("loading")
   
@@ -116,27 +116,40 @@ export default function Page() {
   
 
   return (
-    <div>      
-      <div>
+
+    <main className="flex min-h-screen flex-col items-center justify-center p-6 md:p-24">      
+      <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-center font-mono text-sm">        
         <label>Name</label>        
-        <input type="text" placeholder={user.user_name} readOnly/>
       </div>
-      <div>
+      <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-center font-mono text-lg">        
+        {user.user_name} 
+       </div> 
+       
+      <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-center font-mono text-sm">
         <label>Medicine Name</label>        
-        <input type="text" id="medicineName" value={medicineName || "Calcium carbonate"} readOnly/>
       </div>
-      <div>
+      <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-center font-mono text-lg">
+        {medicineName || "Calcium carbonate"}
+      </div>
+      <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-center font-mono text-sm">
         <label># a day</label>        
-        <input type="text" id="scheduleToTake" value={scheduleToTake || 4} readOnly/>
+      </div>      
+      <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-center font-mono text-lg">
+        {scheduleToTake || 4}
       </div>
-      <div>        
+
+      <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-center font-mono text-lg">
+        <label>Extra Notes</label>        
+      </div>      
+      <div className="z-10 w-full max-w-5xl flex flex-row items-center justify-center font-mono text-lg">
+        <input type="text" placeholder="" readOnly/>
+      </div>
+      <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded mt-4 sm:py-4 sm:px-8">        
         <button onClick={logsBtnClickAction}>Tracking</button>
       </div>
-      <div>
-        <label>Extra Notes</label>        
-        <input type="text" placeholder="" readOnly/>
-      </div>      
-    </div>
+
+      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]"></div>
+    </main>
   )
 }
 
