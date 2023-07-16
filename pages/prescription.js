@@ -1,59 +1,59 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import withAuth from "../firebase/withAuth";
-import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
-import { db, auth } from "../firebase/firebase.config";
-import ReactModal from "react-modal";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import withAuth from '../firebase/withAuth';
+import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
+import { db, auth } from '../firebase/firebase.config';
+import ReactModal from 'react-modal';
 
 const PrescriptionPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [aliments, setAliments] = useState([]);
-  const [selectedAliment, setSelectedAliment] = useState("");
-  const [selectedDrug, setSelectedDrug] = useState("");
+  const [selectedAliment, setSelectedAliment] = useState('');
+  const [selectedDrug, setSelectedDrug] = useState('');
   const [specifiedDrugs, setSpecifiedDrugs] = useState([]);
-  const [dosage, setDosage] = useState("");
-  const [timesPerDay, setTimesPerDay] = useState("");
-  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [dosage, setDosage] = useState('');
+  const [timesPerDay, setTimesPerDay] = useState('');
+  const [additionalInfo, setAdditionalInfo] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [licenseNumber, setLicenseNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [eSignature, setESignature] = useState("");
+  const [userName, setUserName] = useState('');
+  const [licenseNumber, setLicenseNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [eSignature, setESignature] = useState('');
 
   const handleSend = () => {
     setIsModalOpen(true);
   };
 
-  //   const handleSend = () => {
-  //     if (
-  //       email &&
-  //       selectedAliment &&
-  //       selectedDrug &&
-  //       dosage &&
-  //       timesPerDay &&
-  //       additionalInfo
-  //     ) {
-  //       setIsModalOpen(true);
-  //     }
-  //   };
-
-  const handleEmailSend = () => {
+  const handleEmailSend = async () => {
     const prescriptionData = {
-      Pharmacist: userName,
+      "Pharmacist": userName,
       "License Number": licenseNumber,
-      Address: address,
+      "Address": address,
       "E-Signature": eSignature,
-      Aliment: selectedAliment,
-      Drug: selectedDrug,
-      Dosage: dosage,
+      "Aliment": selectedAliment,
+      "Drug": selectedDrug,
+      "Dosage": dosage,
       "Times Per Day": timesPerDay,
       "Additional Info": additionalInfo,
     };
-
-    // Replace the code below with your email sending logic
-    console.log("Sending prescription data via email:", prescriptionData);
+  
+    const response = await fetch("/api/send-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(prescriptionData),
+    });
+  
+    if (response.ok) {
+      console.log("Email sent successfully");
+    } else {
+      const errorData = await response.json();
+      console.error(errorData.message);
+    }    
   };
+  
 
   useEffect(() => {
     const checkAdminRole = async () => {
