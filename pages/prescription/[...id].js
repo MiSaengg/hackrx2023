@@ -1,9 +1,10 @@
 "use client"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { collection, doc, getDoc, updateDoc,setDoc, addDoc , Timestamp} from "firebase/firestore";
+import { collection, doc, getDoc, updateDoc,setDoc, addDoc ,arrayUnion, Timestamp} from "firebase/firestore";
 import { db } from "@/firebase/firebase.config";
-import { redirect } from "next/dist/server/api-utils";
+
+
 
 
 export default function Page() {
@@ -11,9 +12,10 @@ export default function Page() {
   const [user, setUser] = useState({ user_name : "loading"});
   const [id , setId] = useState("")
   const [pharaId, setPharaId] = useState("")
+
   //Later change the default value
   const [medicineName , setMedicineName] = useState("HAHAHA")
-  const [scheduleToTake , setScheduleToTake] = useState(3)
+  const [scheduleToTake , setScheduleToTake] = useState(2)
 
   useEffect(() => {
     if( !router.isReady ) {      
@@ -52,26 +54,38 @@ export default function Page() {
     const  handleSaveProfile = async () => {
       if(id){
         const userRef = doc(collection(db, "users"), id );
-        let userData = {      
-          prescriptionDetail : {    
+        let userUltimateData = []        
+
+        for(let i = 0 ; i < scheduleToTake ; i ++){
+          userUltimateData.push({                
             // later add the info
-            aliments : aliments,
-            dosage : dosage,
+            sequenceNo: i,
+            aliments : "aliments123",
+            dosage : "dosage123",
             medicineName : medicineName,
             scheduleToTake : scheduleToTake,
             taken : false,
             sideEffect : false,
             time : time.toDate()
-          }
+          
+        })
         }
-        await setDoc(userRef, userData , {merge: true});        
+
+        console.log(userUltimateData)
+
+        
+          await setDoc(userRef, {prescriptionDetail : userUltimateData} , {merge: true}).then(
+            () => window.location.href = "/prescription/track/" + id       
+          )        
+        
+                        
 
         };        
-
-      }
+      }     
 
       handleSaveProfile();
-      window.location.href = "/prescription/track/" + id 
+        
+      
     }
 
 
