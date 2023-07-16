@@ -1,22 +1,25 @@
-// pages/index.js
 import Link from "next/link";
+import Image from "next/image";
+import "../public/styles.css";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
+    <main className="flex min-h-screen flex-col items-center justify-center p-6 md:p-24">
+      <div className="z-10 w-full max-w-5xl flex flex-col items-center justify-center font-mono text-sm">
+        <div className="fixed bottom-0 left-0 flex h-48 w-full items-center justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
           <a
             className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
             href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
           ></a>
-          {/* <CreateUserButton /> */}
         </div>
-        <div>
+        <div className="flex flex-col items-center justify-center">
+          <Image src="/medease.png" alt="logo" width={300} height={300} />
           <Link href="/login">
-            <button>Log-in</button>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded mt-4 sm:py-4 sm:px-8">
+              Log-in
+            </button>
           </Link>
         </div>
       </div>
