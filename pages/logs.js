@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, where, getDocs } from "firebase/firestore";
 import { db, auth } from "../firebase/firebase.config";
 
 const LogsPage = () => {
@@ -8,33 +8,35 @@ const LogsPage = () => {
   const uid = auth.currentUser?.uid;
 
   const fetchLogs = async () => {
+    let find;
     if (uid && searchField !== "") {
       const usersQuery = query(collection(db, "users"), where("email", "==", searchField));
       const querySnapshot = await getDocs(usersQuery);
 
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
-        const userUid = userDoc.data().uid;
+        const userUid = userDoc.id;
+        console.log(userUid);
 
         if (typeof userUid === 'string' && userUid !== '') {
-          const recordsRef = collection(db, `records/${userUid}`);
-          const recordsSnap = await getDocs(recordsRef);
+          const recordsRef = doc(db, "users", userUid);
 
-          if (!recordsSnap.empty) {
-            const recordsData = recordsSnap.docs[0].data();
-            const logs = recordsData.prescriptionDetail;
-            setLogs(logs);
-          } else {
-            setLogs([]);
-          }
+          find = onSnapshot(recordsRef, (docSnap) => {
+            if (docSnap.exists()) {
+              const recordsData = docSnap.data();
+              const logs = recordsData.prescriptionDetail;
+              setLogs(logs);
+            } else {
+              setLogs([]);
+            }
+          });
         } else {
-          console.error('UID is not a string or is an empty string:', userUid);
           setLogs([]);
         }
-      } else {
-        setLogs([]);
       }
     }
+
+    return () => find && find();
   };
 
   useEffect(() => {
