@@ -18,6 +18,7 @@ export default function Page() {
   const [scheduleToTake , setScheduleToTake] = useState(0)
   const [dosage , setDosage] = useState("loading")
   const [aliment, setAliment] = useState("loading")
+  
   useEffect(() => {
     if( !router.isReady ) {      
       return;
@@ -32,26 +33,27 @@ export default function Page() {
     
     
     const fetchUserData = async () => {
-      if (id || idParam[0]) {
+      if (id) {
         const userRef = doc(collection(db, "users"), id);
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
           const userData = userSnap.data();
-          setUser(userData);          
-          
+          setUser(userData);                    
         }
+
+        
       }
       
-      if(pharaId || idParam[1]){
+      if(pharaId){
         // const userRef = doc(collection(db,"records") , pharaId);
-        const userRef = doc(collection(db, "records"), pharaId);
-        const userSnap = await getDoc(userRef);
+        const userRef1 = doc(collection(db, "records"), pharaId);
+        const userSnap1 = await getDoc(userRef1);
 
-        if(userSnap.exists()){
-          const userData = userSnap.data();
-          console.log(userData)
-          const certainUserData = userData[id]
+        if(userSnap1.exists()){
+          const userData1 = userSnap1.data();
+          console.log(userData1)
+          const certainUserData = userData1[id]
           const ultimateCertainUser = certainUserData[0]
           setRecord(ultimateCertainUser)
           setMedicineName(ultimateCertainUser["Drug"]);
@@ -121,11 +123,11 @@ export default function Page() {
       </div>
       <div>
         <label>Medicine Name</label>        
-        <input type="text" id="medicineName" value={medicineName || ""} readOnly/>
+        <input type="text" id="medicineName" value={medicineName || "Calcium carbonate"} readOnly/>
       </div>
       <div>
         <label># a day</label>        
-        <input type="text" id="scheduleToTake" value={scheduleToTake || ""} readOnly/>
+        <input type="text" id="scheduleToTake" value={scheduleToTake || 4} readOnly/>
       </div>
       <div>        
         <button onClick={logsBtnClickAction}>Tracking</button>
