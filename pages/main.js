@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { auth } from "../firebase/firebase.config";
 import withAuth from "../firebase/withAuth";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, updateDoc, getDocs, query } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 
 const Prescribe = () => {
@@ -22,12 +22,25 @@ const Prescribe = () => {
 const MainPage = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const [logs, setLogs] = useState([]);
   const uid = auth.currentUser?.uid;
 
   const handleLogout = async () => {
     await auth.signOut();
     router.push("/");
   };
+
+  const handleViewLogs = async () => {
+    if (uid) {
+      const recordsRef = doc(collection(db, "records"), uid);
+      const recordsSnap = await getDoc(recordsRef);
+
+      if (recordsSnap.exists()) {
+        const recordsData = recordsSnap.data();
+        setLogs(recordsData.log);
+      }
+    }
+};
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -153,7 +166,23 @@ const MainPage = () => {
         {user.address && <p>Address: {user.address}</p>}
         {user.licenseNumber && <p>License Number: {user.licenseNumber}</p>}
         <Prescribe />
+        <button onClick={handleViewLogs}>Logs</button>
         <button onClick={handleLogout}>Logout</button>
+        {logs && logs.map((log, index) => (
+        <div key={index}>
+          <h2>Log #{index + 1}</h2>
+          <p>Email: {log.Email}</p>
+          <p>Pharmacist: {log.Pharmacist}</p>
+          <p>License Number: {log['License Number']}</p>
+          <p>Address: {log.Address}</p>
+          <p>E-Signature: {log['E-Signature']}</p>
+          <p>Aliment: {log.Aliment}</p>
+          <p>Drug: {log.Drug}</p>
+          <p>Dosage: {log.Dosage}</p>
+          <p>Times Per Day: {log['Times Per Day']}</p>
+          <p>Additional Info: {log['Additional Info']}</p>
+        </div>
+      ))}
       </div>
     );
   } else {
